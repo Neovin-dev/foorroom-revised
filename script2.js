@@ -34,47 +34,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const dataSection = document.getElementById("data-section-container");
 
-    
-
-    if (window.innerWidth < 1025) {
-        if (filterMenu) filterMenu.classList.add('deactive-style');
-        // if (mobileControls) mobileControls.classList.remove('deactive-style');
-        if(sortControls) sortControls.classList.add('deactive-style');
-    }else {
-        if(sortControls && sortControls.classList.contains('deactive-style')) sortControls.classList.remove('deactive-style');
-    }
-
-    function toggleFilterContainerVisibility() {
-        if (filterMenu) {
-            if (window.innerWidth < 1025) {
-                filterMenu.classList.add('deactive-style');
-            } else {
-                filterMenu.classList.remove('deactive-style');
-            }
-        }
-
-        // if (mobileControls) {
-        //     if (window.innerWidth < 1025) {
-        //         mobileControls.classList.remove('deactive-style');
-        //     } else {
-        //         mobileControls.classList.add('deactive-style');
-        //     }
-        // }
-
-        if (sortControls) {
-            if (window.innerWidth < 1025) {
-                sortControls.classList.add('deactive-style');
-            } else {
-                sortControls.classList.remove('deactive-style');
-            }
-        }
-    }
-
-    toggleFilterContainerVisibility(); 
     // check on intial load
 
-    window.addEventListener('reload', toggleFilterContainerVisibility);
-    window.addEventListener('resize', toggleFilterContainerVisibility);
+    window.addEventListener('resize', updateUIVisibility);
     // window.addEventListener('change', filterMobileBarVisibility)
     // reload and resize. load when refreshed
 
@@ -108,29 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
             tableBody.appendChild(row);
         })
 
-        if (registrations.length === 0) {
-            // if (dataTablePanel) dataTablePanel.classList.add('deactive-style');
-            if(tableData) tableData.classList.add("deactive-style");
-            if (filterBar) filterBar.classList.add('deactive-style');
-            // if (sortControls) sortControls.classList.add('deactive-style');
-            if (tableContainer) tableContainer.classList.add('deactive-style');
-            if(dataSection && !(dataSection.classList.contains('deative-style'))) dataSection.classList.add('deactive-style');
-        } else {
-            // if (dataTablePanel) dataTablePanel.classList.remove('deactive-style');
-            if(tableData) tableData.classList.remove("deactive-style");
-            if (filterBar) filterBar.classList.remove('deactive-style');
-            // if (sortControls) sortControls.classList.remove('deactive-style');
-            if (tableContainer) tableContainer.classList.remove('deactive-style');
-            if(dataSection) dataSection.classList.remove('deactive-style');
-        }
-
-        if (emptyStateDefault) {
-            if (registrations.length > 0) {
-                emptyStateDefault.classList.add('deactive-style');
-            } else {
-                emptyStateDefault.classList.remove('deactive-style');
-            }
-        }
+        updateUIVisibility();
 
     }
 
@@ -283,10 +223,10 @@ document.addEventListener("DOMContentLoaded", function () {
             allCheckBoxes.forEach(checkbox => checkbox.checked = false);
         })();
 
-        if (dataTablePanel) dataTablePanel.classList.remove('deactive-style');
-        if (filterBar) filterBar.classList.remove('deactive-style');
-        // if (sortControls) sortControls.classList.remove('deactive-style');
-        if (tableContainer) tableContainer.classList.remove('deactive-style');
+        // if (dataTablePanel) dataTablePanel.classList.remove('deactive-style');
+        // if (filterBar) filterBar.classList.remove('deactive-style');
+        // // if (sortControls) sortControls.classList.remove('deactive-style');
+        // if (tableContainer) tableContainer.classList.remove('deactive-style');
 
         // if(emptyStateDefault){
         //     if(registrations.length > 0){
@@ -355,10 +295,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }); 
             }, 100);
            
-        }
-
-        if(window.innerWidth < 1025){
-            mobileControls.classList.remove('deactive-style')
         }
         
         rerenderTable();
@@ -434,38 +370,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     let allCheckBoxes = document.querySelectorAll('#filterMenu input[type="checkbox"]');
                     allCheckBoxes.forEach(checkbox => checkbox.checked = false);
                     rerenderTable();
-                    if(registrations.length > 0){
-                        tableData.classList.remove("deactive-style");
-                        console.log("emptyStatfdeFilter", tableBody)
-                    }
+                    // if(registrations.length > 0){
+                    //     tableData.classList.remove("deactive-style");
+                    //     console.log("emptyStatfdeFilter", tableBody)
+                    // }
                     
-                    emptyStateFilter.classList.add("deactive-style");
+                    // emptyStateFilter.classList.add("deactive-style");
                     
                 })();
 
-                if (tableBody.rows.length === 0) {
-                    // dataTablePanel.classList.add('deactive-style');
-                    tableData.classList.add("deactive-style");
-                    if(filterBar) filterBar.classList.add('deactive-style');
-                    // if(sortControls) sortControls.classList.add('deactive-style');
-                    // if(filterMenu) filterMenu.classList.add('deactive-style');
-                    //toggle the empty state illustration here
-                    if(emptyStateDefault) emptyStateDefault.classList.remove('deactive-style');
-                    
-                }
-                if (tableBody.rows.length <= 1) {
-                    //  if(sortControls) sortControls.classList.add('deactive-style');
-                     tableData.classList.remove("deactive-style");
-                    //  if(filterMenu) filterMenu.classList.add('deactive-style');
-                }
-
-                if(registrations.length === 0){
-                    tableData.classList.add("deactive-style")
-                }
-
-                if(window.innerWidth < 1025){
-                   if(registrations.length === 0) mobileControls.classList.add('deactive-style')
-                }
 
                 window.scrollTo({
                 top: 0,
@@ -478,12 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 let userId = parseInt(row.dataset.id);
                 registrations = registrations.filter(user => user.id !== userId);
                 row.remove();
-                if(dataSection && !(dataSection.classList.contains('deative-style')) && (registrations.length === 0)) dataSection.classList.add('deactive-style');
-                if(filteredRegistrations.length === 0) dataSection.classList.add('deactive-style');
-                deleteMode = true;
-                if(window.innerWidth < 1025){
-                   if(registrations.length === 0 || filteredRegistrations.length === 0) mobileControls.classList.add('deactive-style')
-                }
+                
                 applyFilterButton.click();
 
                 
@@ -594,21 +502,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 overlayBackdrop.classList.toggle("deactive-style");
             }
 
-            if(!deleteMode){
-                deleteMode = false;
-                if(filteredRegistrations.length === 0){
-                    mobileControls.classList.add("deactive-style");
-                tableData.classList.add("deactive-style");
-                emptyStateFilter.classList.remove("deactive-style");
-                console.log("emptyStateFdfilter applyFiters")
-                }else {
-                    tableData.classList.remove("deactive-style");
-                    emptyStateFilter.classList.add("deactive-style");
-                     mobileControls.classList.remove("deactive-style");
-                }
-            }
-
-            
+            updateUIVisibility();
         });
     }
 
@@ -617,13 +511,6 @@ document.addEventListener("DOMContentLoaded", function () {
             let allCheckBoxes = document.querySelectorAll('#filterMenu input[type="checkbox"]');
             allCheckBoxes.forEach(checkbox => checkbox.checked = false);
             rerenderTable();
-            if(registrations.length > 0){
-                tableData.classList.remove("deactive-style");
-                console.log("emptyStateFilter clear")
-            }
-            
-            emptyStateFilter.classList.add("deactive-style");
-            
             
         });
     }
@@ -716,15 +603,7 @@ document.addEventListener("DOMContentLoaded", function () {
         tableBody.appendChild(row);
     });
 
-    if (filteredRegistrations.length === 0) {
-        tableData.classList.add("deactive-style");
-        emptyStateFilter.classList.remove("deactive-style");
-         console.log("emptyStateFilter apply filtered")
-     } else {
-        tableData.classList.remove("deactive-style");
-        emptyStateFilter.classList.add("deactive-style");
-       
-     }
+    updateUIVisibility();
    }
 
 
@@ -732,12 +611,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let allCheckBoxes = document.querySelectorAll('#filtersOverlay input[type="checkbox"]');
     allCheckBoxes.forEach(checkbox => checkbox.checked = false);
     rerenderTable();
-
-    if (registrations.length > 0) {
-        tableData.classList.remove("deactive-style");
-        console.log("emptyStateFilter clear mobile")
-    }
-    emptyStateFilter.classList.add("deactive-style");
     
    }
 
@@ -777,6 +650,55 @@ document.addEventListener("DOMContentLoaded", function () {
             filtersOverlay.classList.remove('is-active');
             document.body.classList.remove('no-scroll');
         });
+    }
+
+    function getIsFilterActive() {
+        const filterCheckboxes = document.querySelectorAll(
+            '#filterMenu input[type="checkbox"]:checked, #filtersOverlay input[type="checkbox"]:checked'
+        );
+        return filterCheckboxes.length > 0;
+    }
+
+    function updateUIVisibility() {
+        const totalRegistrations = registrations.length;
+        const visibleRows = tableBody ? tableBody.rows.length : 0;
+        const isDesktop = window.innerWidth >= 1025;
+        const isFilterActive = getIsFilterActive();
+
+        const hasNoData = totalRegistrations === 0;
+        const showDefaultEmptyState = hasNoData;
+        const showFilteredEmptyState = !hasNoData && visibleRows === 0 && isFilterActive;
+        const showTable = !hasNoData && (visibleRows > 0 || !isFilterActive);
+
+        if (filterMenu) {
+            isDesktop ? filterMenu.classList.remove('deactive-style') : filterMenu.classList.add('deactive-style');
+        }
+        if (sortControls) {
+            (!isDesktop || hasNoData) ? sortControls.classList.add('deactive-style') : sortControls.classList.remove('deactive-style');
+        }
+        if (mobileControls) {
+            (isDesktop || hasNoData) ? mobileControls.classList.add('deactive-style') : mobileControls.classList.remove('deactive-style');
+        }
+
+        if (dataSection) {
+            hasNoData ? dataSection.classList.add('deactive-style') : dataSection.classList.remove('deactive-style');
+        }
+        if (filterBar) {
+            hasNoData ? filterBar.classList.add('deactive-style') : filterBar.classList.remove('deactive-style');
+        }
+        if (tableContainer) {
+            hasNoData ? tableContainer.classList.add('deactive-style') : tableContainer.classList.remove('deactive-style');
+        }
+
+        if (emptyStateDefault) {
+            showDefaultEmptyState ? emptyStateDefault.classList.remove('deactive-style') : emptyStateDefault.classList.add('deactive-style');
+        }
+        if (emptyStateFilter) {
+            showFilteredEmptyState ? emptyStateFilter.classList.remove('deactive-style') : emptyStateFilter.classList.add('deactive-style');
+        }
+        if (tableData) {
+            showTable ? tableData.classList.remove('deactive-style') : tableData.classList.add('deactive-style');
+        }
     }
 
 });
